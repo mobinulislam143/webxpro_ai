@@ -36,7 +36,7 @@ export default function Hero() {
             {...fadeUp(0)}
             className="mb-6 inline-block rounded-full border border-teal/20 bg-white/70 px-4 py-1.5 text-xs font-medium tracking-wide text-teal sm:text-sm"
           >
-            AI Automation for Local Service Businesses
+            AI Automation for Local Businesses That Hate Losing Money
           </motion.p>
 
           <motion.h1
@@ -45,16 +45,17 @@ export default function Hero() {
           >
             Every Missed Lead, <span className="text-teal">Captured</span> And
             Followed Up In Seconds —{" "}
-            <span className="italic">No Staff Required.</span>
+            <span className="italic">While You Sleep.</span>
           </motion.h1>
 
           <motion.p
             {...fadeUp(0.2)}
             className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-graytext sm:text-lg"
           >
-            Webxpro AI builds automation systems that answer your calls, chase
-            your leads, and book your calendar 24/7 — so local service
-            businesses stop leaking revenue to voicemail.
+            Your voicemail is where revenue goes to die. Our AI answers every
+            call, chases every lead, and books your calendar 24/7. No new
+            hires. No &ldquo;we&apos;ll circle back.&rdquo; Just a phone that
+            finally pays for itself.
           </motion.p>
 
           <motion.div

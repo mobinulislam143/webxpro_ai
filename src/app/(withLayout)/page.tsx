@@ -4,9 +4,10 @@ import ProblemStats from "@/components/marketing/ProblemStats";
 import Services from "@/components/marketing/Services";
 import Industries from "@/components/marketing/Industries";
 import HowItWorks from "@/components/marketing/HowItWorks";
+import Team from "@/components/marketing/Team";
+import Founder from "@/components/marketing/Founder";
 import AuditForm from "@/components/marketing/AuditForm";
 import FAQ from "@/components/marketing/FAQ";
-import Footer from "@/components/marketing/Footer";
 
 function SectionSkeleton() {
   return (
@@ -38,9 +39,10 @@ export default function HomePage() {
       <RoiCalculator />
       <LiveDemo />
       <HowItWorks />
+      <Team />
+      <Founder />
       <AuditForm />
       <FAQ />
-      <Footer />
     </main>
   );
 }

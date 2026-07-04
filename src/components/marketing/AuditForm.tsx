@@ -3,10 +3,10 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { motion } from "framer-motion";
 import { CircleCheckBig } from "lucide-react";
 import { niches } from "@/data/niches";
+import { auditSchema, type AuditFormValues } from "@/validations/audit";
 import { fadeUp, staggerContainer, viewportOnce } from "./motion";
 
 const bottlenecks = [
@@ -25,29 +25,9 @@ const leadVolumes = [
   { value: "500-plus", label: "500+ / month" },
 ];
 
-const auditSchema = z.object({
-  name: z
-    .string()
-    .trim()
-    .min(2, "Please enter your name")
-    .max(100, "Name is too long"),
-  businessName: z
-    .string()
-    .trim()
-    .min(2, "Please enter your business name")
-    .max(150, "Business name is too long"),
-  email: z.string().trim().email("Please enter a valid email"),
-  industry: z.string().min(1, "Please select your industry"),
-  bottleneck: z.string().min(1, "Please select your biggest bottleneck"),
-  leadVolume: z.string().optional(),
-  // Honeypot — humans never see or fill this field; checked in onSubmit
-  website: z.string().optional(),
-});
-
-type AuditFormValues = z.infer<typeof auditSchema>;
-
 export default function AuditForm() {
   const [submitted, setSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const {
     register,
@@ -72,9 +52,20 @@ export default function AuditForm() {
       setSubmitted(true);
       return;
     }
-    // TODO: wire to backend/webhook (e.g. n8n, Make, or API route) when backend is ready
-    console.info("Audit request captured (stub):", { ...values, website: undefined });
-    setSubmitted(true);
+    setSubmitError(null);
+    try {
+      const res = await fetch("/api/audit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
+      });
+      if (!res.ok) throw new Error(`Request failed (${res.status})`);
+      setSubmitted(true);
+    } catch {
+      setSubmitError(
+        "Couldn't send right now — try again in a minute, or ping us on WhatsApp below.",
+      );
+    }
   };
 
   const inputClass = (hasError: boolean) =>
@@ -266,6 +257,10 @@ export default function AuditForm() {
                 >
                   {isSubmitting ? "Sending…" : "Claim My Free Audit"}
                 </motion.button>
+
+                {submitError && (
+                  <p className="text-center text-sm text-red-500">{submitError}</p>
+                )}
 
                 <p className="text-center text-xs text-graytext/70">
                   No spam, no list. We only use this to prepare your audit.

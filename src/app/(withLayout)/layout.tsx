@@ -1,6 +1,15 @@
 import { type ReactNode } from "react";
+import Navbar from "@/components/marketing/Navbar";
+import Footer from "@/components/marketing/Footer";
+import WhatsAppButton from "@/components/marketing/WhatsAppButton";
 
-// The marketing page carries its own footer and anchor nav — no chrome needed here.
-export default function CommonLayout({ children }: { children: ReactNode }) {
-  return <>{children}</>;
+export default function MarketingLayout({ children }: { children: ReactNode }) {
+  return (
+    <div className="flex min-h-screen flex-col bg-ivory">
+      <Navbar />
+      <div className="flex-1">{children}</div>
+      <Footer />
+      <WhatsAppButton />
+    </div>
+  );
 }
