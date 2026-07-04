@@ -1,13 +1,6 @@
-import Footer from "@/components/common/Footer";
-import Navbar from "@/components/common/Navbar";
 import { type ReactNode } from "react";
 
+// The marketing page carries its own footer and anchor nav — no chrome needed here.
 export default function CommonLayout({ children }: { children: ReactNode }) {
-  return (
-    <div className="min-h-screen flex flex-col">
-      <Navbar />
-      <div className="flex-1">{children}</div>
-      <Footer />
-    </div>
-  );
+  return <>{children}</>;
 }

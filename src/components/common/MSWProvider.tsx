@@ -2,6 +2,9 @@
 
 import { useEffect, useState, type ReactNode } from "react";
 
+// StrictMode runs effects twice in dev; MSW throws if started twice
+let mswStartPromise: Promise<unknown> | null = null;
+
 export function MSWProvider({ children }: { children: ReactNode }) {
   const [ready, setReady] = useState(
     () => process.env.NODE_ENV !== "development"
@@ -10,11 +13,10 @@ export function MSWProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (process.env.NODE_ENV !== "development") return;
 
-    import("@/mocks/browser").then(({ worker }) => {
-      worker
-        .start({ onUnhandledRequest: "bypass" })
-        .finally(() => setReady(true));
-    });
+    mswStartPromise ??= import("@/mocks/browser").then(({ worker }) =>
+      worker.start({ onUnhandledRequest: "bypass" })
+    );
+    mswStartPromise.catch(() => {}).finally(() => setReady(true));
   }, []);
 
   if (!ready) return null;
